@@ -11,17 +11,17 @@ class EngineOrder(Enum):
     FULL_AHEAD = 3
 
 
-POWER_TO_WEIGHT = 10
+POWER_TO_WEIGHT = 1
 
 
 class Engine:
-    def __init__(self, power=1):
+    def __init__(self, power=100):
         self.ship = None
         self.power = power # ft/s/s
+        self.order = EngineOrder.STOP
 
     def engineOrder(self, order):
-        self.ship.speed += self.ship.hull.efficiency * self.power * order.value / (3 * self.ship.weight())
-        self.ship.speed = min(self.ship.speed, self.ship.hull.topSpeed)
+        self.order = order
 
     def weight(self):
         return self.power * POWER_TO_WEIGHT

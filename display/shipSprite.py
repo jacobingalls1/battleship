@@ -9,7 +9,7 @@ class ShipSprite:
 
     def update(self):
         width = int(self.ship.hull.length)
-        height = int(10 * self.ship.hull.displacement / width)
+        height = int(self.ship.hull.beam)
         self.width = width
         self.height = height
         surf = pg.Surface((width, height))
