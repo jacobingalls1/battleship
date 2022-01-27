@@ -2,9 +2,9 @@ import pygame as pg
 from display.shipSprite import ShipSprite
 import math
 from display.animator import Animator
-from vector import Vector
+from gameManagement.vector import Vector
 
-SCREEN_SIZE = (1000,1000)
+SCREEN_SIZE = (1000, 1000)
 SCREEN_BORDERS = ((-500, -500), (500, 500))
 margin = 100
 pg.init()
@@ -14,7 +14,7 @@ class Display:
         self.screen = pg.display.set_mode(SCREEN_SIZE)
         pg.display.set_caption(name)
         self.animator = Animator()
-        self.dims = []
+        self.dims = [SCREEN_BORDERS[0][0], SCREEN_BORDERS[0][1], SCREEN_BORDERS[1][0], SCREEN_BORDERS[1][1]]
 
     def getShipSprite(self, ship):
         return ShipSprite(ship)
@@ -28,7 +28,9 @@ class Display:
             rect[3] = rect[1] + rect[2] - rect[0]
         else:
             rect[2] = rect[0] + rect[3] - rect[1]
-        self.dims = rect
+        for c in range(4):
+            self.dims[c] = (self.dims[c] + rect[c]) / 2
+
 
     def drawObject(self, surface, position, size, rotation=0):
         rect = self.dims
@@ -46,7 +48,7 @@ class Display:
 
     def drawShip(self, ship):
         #the ship sprite is as long as the ship in feet
-        self.drawObject(ship.sprite.surf, ship.position, Vector(ship.sprite.width, ship.sprite.height), ship.facing)
+        self.drawObject(ship.sprite.surf, ship.position, Vector(ship.sprite.width, ship.sprite.height), ship.heading)
 
     def drawWater(self):
         self.screen.fill((0, 157, 196))
@@ -60,7 +62,6 @@ class Display:
         for ship in ships:
             self.drawShip(ship)
         for aa in self.animator.getActiveAnimations():
-            print('HIT ANIMATION\n\n\n')
             self.drawObject(*aa)
         pg.display.update()
         pg.display.flip()

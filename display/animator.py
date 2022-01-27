@@ -29,11 +29,11 @@ class Animator:
         self.activeAnimations = []
 
     def hit(self, time, length, location, timestep, size, hit):
-        if acc := self.animations[timestep][HitAnimation][length]:
-            self.activeAnimations.append(ActiveAnimation(acc, location, time, timestep))
-            return
-        self.animations[timestep][HitAnimation][length] = HitAnimation(length, timestep, size, hit)
-        self.activeAnimations.append(ActiveAnimation(self.animations[timestep][HitAnimation][length], location, time, timestep))
+        # if acc := self.animations[timestep][HitAnimation][length]:
+        #     self.activeAnimations.append(ActiveAnimation(acc, location, time, timestep))
+        #     return
+        # self.animations[timestep][HitAnimation][length] = HitAnimation(length, timestep, size, hit)
+        self.activeAnimations.append(ActiveAnimation(HitAnimation(length, timestep, size, hit), location, time, timestep))
 
     def locations(self):
         return [a.position for a in self.activeAnimations]
@@ -44,10 +44,7 @@ class Animator:
             if aa.finished():
                 self.activeAnimations.remove(aa)
             else:
-                draw = aa.drawable
                 ret.append(aa.drawable())
-        print(ret)
-        print(self.activeAnimations)
         return ret
 
 

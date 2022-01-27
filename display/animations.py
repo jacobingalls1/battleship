@@ -1,4 +1,5 @@
 import pygame as pg
+from gameManagement.vector import Vector
 
 
 class Animation:
@@ -20,7 +21,7 @@ class Animation:
     def drawFrame(self, frame):
         raise NotImplementedError
 
-    def getFrame(self, frame):
+    def getFrame(self, frame=0):
         if frame >= len(self.frames):
             return False
         if self.frames[frame]:
@@ -51,5 +52,13 @@ class HitAnimation(Animation):
         return surf
 
 
-
-
+# import timeit
+#
+# n = 1000000
+# frames = 10
+# size = Vector(10, 10)
+# ha = HitAnimation(frames, 1, size, True)
+# ha.animate()
+#
+# print(timeit.timeit(ha.getFrame, number=n))
+# print(timeit.timeit(HitAnimation(frames, 1, size, True).animate, number=int(n/frames)))

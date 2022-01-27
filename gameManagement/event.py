@@ -1,4 +1,4 @@
-from vector import Vector
+from gameManagement.vector import Vector
 
 
 class Event:
